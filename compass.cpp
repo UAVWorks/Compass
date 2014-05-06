@@ -29,6 +29,8 @@
 // This is the size, (no scale sry !)
 #define COMPASSSIZE (200)
 
+#define CIRCLEPENWIDTH      (4)
+
 Compass::Compass(QWidget *parent) :
     QGraphicsView(parent),
     bearing(60)
@@ -37,7 +39,7 @@ Compass::Compass(QWidget *parent) :
 
     background      = QBrush(QColor(0x53, 0x54, 0x48));
     circlePen       = QPen(Qt::black);
-    circlePen.setWidth(4);
+    circlePen.setWidth(CIRCLEPENWIDTH);
     graduationsPen  = QPen(Qt::white);
     graduationsPen.setWidth(2);
     textPen         = QPen(Qt::white);
@@ -92,8 +94,8 @@ void Compass::paint(QPainter *painter, QPaintEvent *event)
     painter->fillRect(event->rect(), background);
     painter->setPen(circlePen);
     painter->translate(COMPASSSIZE/2, COMPASSSIZE/2);
-    painter->drawEllipse(QPoint(0, 0), COMPASSSIZE/2-circlePen.width(),
-                         COMPASSSIZE/2-circlePen.width());
+    painter->drawEllipse(QPoint(0, 0), COMPASSSIZE/2-CIRCLEPENWIDTH,
+                         COMPASSSIZE/2-CIRCLEPENWIDTH);
 
     // Plane
     painter->setPen(planePen);
