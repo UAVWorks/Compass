@@ -26,13 +26,14 @@
 #include <QPaintEvent>
 #include <QSize>
 
+// This is the size, (no scale sry !)
 #define COMPASSSIZE (200)
 
 Compass::Compass(QWidget *parent) :
     QGraphicsView(parent),
     bearing(60)
 {
-    this->setGeometry(0, 0, COMPASSSIZE, COMPASSSIZE);
+    QGraphicsView::setGeometry(0, 0, COMPASSSIZE, COMPASSSIZE);
 
     background      = QBrush(QColor(0x53, 0x54, 0x48));
     circlePen       = QPen(Qt::black);
@@ -87,15 +88,12 @@ void Compass::paintEvent(QPaintEvent *event)
 
 void Compass::paint(QPainter *painter, QPaintEvent *event)
 {
-    int centrex = this->size().width()/2;
-    int centrey = this->size().height()/2;
-    int circleRadius = centrex-circlePen.width();
-
     // Background + Circle
     painter->fillRect(event->rect(), background);
     painter->setPen(circlePen);
-    painter->drawEllipse(QPoint(centrex, centrey), circleRadius, circleRadius);
-    painter->translate(centrex, centrey);
+    painter->translate(COMPASSSIZE/2, COMPASSSIZE/2);
+    painter->drawEllipse(QPoint(0, 0), COMPASSSIZE/2-circlePen.width(),
+                         COMPASSSIZE/2-circlePen.width());
 
     // Plane
     painter->setPen(planePen);
@@ -108,7 +106,7 @@ void Compass::paint(QPainter *painter, QPaintEvent *event)
     painter->rotate(5);
     for(int i=5 ; i<360 ; i+=10)
     {
-        painter->drawPoint(centrex-15, 0);
+        painter->drawPoint(85, 0);
         painter->rotate(10);
     }
     painter->restore();
